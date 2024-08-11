@@ -34,4 +34,4 @@
 `Сергей Некрасов` 
 
 ## Контакт для связи с командой разработки:
-`nekrasov-nekras-nekrasov@mail.ru` 
+`nekrasov-nekras-nekrasov@mail.ru`
