@@ -11,7 +11,7 @@ def mask_account_card(nums: str) -> str | None:
         return new_card
 
 
-# print(mask_account_card('73654108430135874305'))
+print(mask_account_card('73654108430135874305'))
 # print(mask_account_card('Visa Platinum 7000792289606361'))
 # print(mask_account_card('Maestro 7000792289606361'))
 
