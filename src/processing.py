@@ -17,11 +17,12 @@ def filter_by_state(list_of_dicts: list[dict[str]], state_id="EXECUTED") -> list
     for key in list_of_dicts:
         if key.get("state") == state_id:
             list_state.append(key)
-
     return list_state
+
 
 
 def sort_by_date(list_of_dicts: list[dict[str]], reverse=True) -> list[dict[str]]:
     """Функция сортирующая исходные данные по дате"""
     sorted_list_of_dicts = sorted(list_of_dicts, key=lambda list_of_dicts: list_of_dicts['date'], reverse=reverse)
+    return sorted_list_of_dicts
 
