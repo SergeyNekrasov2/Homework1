@@ -16,4 +16,4 @@ def get_mask_account(acc_number: str) -> str | None:
     else:
         return None
 # print(get_mask_account('73654108430135874305'))
-# print('Счет', get_mask_account('73654108430135874305'))
+# print(get_mask_account('73654108430135874305'))
