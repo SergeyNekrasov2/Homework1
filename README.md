@@ -21,11 +21,8 @@
 # Инструкция по установке
 Чтобы скачать репозиторий:
 
-<<<<<< feature/homework_10_2
-`git clone https://github.com/rostislavegorenkov/Project1.git`
-======
-`git clone https://github.com/SergeyNekrasov2/Project-SkyPro.git`
->>>>>> main
+`git clone https://github.com/SergeyNekrasov2/Homework1.git`
+
 
 Затем вам необходимо установить основные зависимости для запуска проекта в вашей системе:
 
@@ -35,7 +32,7 @@
 
 ## Команда проекта:
 
-<<<<<< feature/homework_10_2
+
 `Некрасов Сергей` 
 
 ## Контакт для связи с командой разработки:
@@ -44,9 +41,9 @@
 ## Источники
 Программа создана при поддержке [skypro@skyeng.ru](https://sky.pro/#giftpopup) 
  ![alt текст](https://static.tildacdn.com/tild3364-3965-4237-b664-363533643431/Group_1321317003.svg)
-======
+
 `Сергей Некрасов` 
 
 ## Контакт для связи с командой разработки:
 `nekrasov-nekras-nekrasov@mail.ru`
->>>>>> main
+
