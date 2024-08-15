@@ -1,6 +1,6 @@
 import pytest
 
-from src.widget import mask_account_card, get_data
+from src.widget import get_data, mask_account_card
 
 
 @pytest.mark.parametrize("nums, mask_nums", [("73654108430135874305", "Счет **4305"),
