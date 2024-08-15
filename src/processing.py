@@ -10,7 +10,6 @@ def filter_by_state(list_of_dicts: list[dict[str]], state_id="EXECUTED") -> list
     """
         Функция принимает на вход список словарей и значение для ключа и возвращает новый
         список содержащий только те словари у которых ключ содержит переданное в функцию
-        список содержащий только те словари, у которых ключ содержит переданное в функцию
         значение.
         """
     list_state = []
@@ -21,9 +20,9 @@ def filter_by_state(list_of_dicts: list[dict[str]], state_id="EXECUTED") -> list
     return list_state
 
 
+
 def sort_by_date(list_of_dicts: list[dict[str]], reverse=True) -> list[dict[str]]:
     """Функция сортирующая исходные данные по дате"""
     sorted_list_of_dicts = sorted(list_of_dicts, key=lambda list_of_dicts: list_of_dicts['date'], reverse=reverse)
     return sorted_list_of_dicts
-    return list_state
 

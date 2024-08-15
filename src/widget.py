@@ -20,6 +20,6 @@ def get_data(date: str) -> str | None:
     """Функция преобразования даты"""
     return f'{date[8:10]}.{date[5:7]}.{date[0:4]}'
 
-# print(get_data('2024-07-26T04:32:20.612820'))
+print(get_data('2024-07-26T04:32:20.612820'))
 # print(get_data('2024-07-26T04:32:20.612820'))
 
