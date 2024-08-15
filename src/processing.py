@@ -24,4 +24,8 @@ def filter_by_state(list_of_dicts: list[dict[str]], state_id="EXECUTED") -> list
 def sort_by_date(list_of_dicts: list[dict[str]], reverse=True) -> list[dict[str]]:
     """Функция сортирующая исходные данные по дате"""
     sorted_list_of_dicts = sorted(list_of_dicts, key=lambda list_of_dicts: list_of_dicts['date'], reverse=reverse)
+<<<<<< feature/homework_10_2
     return sorted_list_of_dicts
+======
+    return sorted_list_of_dicts
+>>>>>> main
