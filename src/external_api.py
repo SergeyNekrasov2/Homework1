@@ -1,29 +1,24 @@
-import json
-from json import JSONDecodeError
 from typing import Any
 
-from src.external_api import currency_conversion
+import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+values = os.getenv("PASSWORD")
 
 
-def financial_transactions(path: str) -> list:
-    """Функция принимает на вход путь до JSON-файла и возвращает список словарей с данными о финансовых транзакциях."""
-    try:
-        with open(path, encoding="utf-8") as financial_file:
-            try:
-                transactions = json.load(financial_file)
-            except JSONDecodeError:
-                return []
-        if not isinstance(transactions, list):
-            return []
-        return transactions
-    except FileNotFoundError:
-        return []
+# keys = os.getenv("API_KEY")
+# headers = {keys: values}
 
 
-def transaction_amount(trans: dict, currency: str = "RUB") -> Any:
-    """Функция принимает на вход транзакцию и возвращает сумму транзакции в рублях"""
-    if trans["operationAmount"]["currency"]["code"] == currency:
-        amount = trans["operationAmount"]["amount"]
-    else:
-        amount = currency_conversion(trans)
-    return amount
+def currency_conversion(transaction: Any) -> Any:
+    """Функция конвертации"""
+    amout = transaction["operationAmount"]["amount"]
+    code = transaction["operationAmount"]["currency"]["code"]
+    to = "RUB"
+    url = f"https://api.apilayer.com/exchangerates_data/convert?to={to}&from={code}&amount={amout}"
+    payload = {}
+    response = requests.get(url, headers={"apikey": values}, data=payload)
+    result = response.json()
+    return result["result"]
