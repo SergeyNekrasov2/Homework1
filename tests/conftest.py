@@ -1,25 +1,22 @@
 import pytest
 from src.generators import transactions
 
-@pytest.fixture
-def number_card(mask_number):
-    return '7000 79** **** 6361'
-
 
 @pytest.fixture
-def account(mask_account):
-    return '**4305'
+# def number_card(mask_number):
+#     return '7000 79** **** 6361'
 
-
-@pytest.fixture
-def nums(mask_nums):
-    return 'Счет **4305', 'Visa Platinum 7000 79** **** 6361', 'Maestro 7000 79** **** 6361'
-
+# @pytest.fixture
+# def account(mask_account):
+#     return '**4305'
 
 @pytest.fixture
-def data(date):
-    return '26.07.2024'
+# def nums(mask_nums):
+#     return 'Счет **4305', 'Visa Platinum 7000 79** **** 6361', 'Maestro 7000 79** **** 6361'
 
+# @pytest.fixture
+# def data(date):
+#     return '26.07.2024'
 
 @pytest.fixture
 def state():
@@ -32,6 +29,7 @@ def state():
 @pytest.fixture
 def test_transactions():
     return transactions
+
 
 @pytest.fixture
 def get_path():
@@ -47,9 +45,10 @@ def get_wrong_path():
 def get_bad_file():
     return '../data/wrong_operations.json'
 
-@pytest.fixture
-def transactions():
-    return get_transactions_dictionary('../data/operations.json')
+
+# @pytest.fixture
+# def transactions():
+#     return get_transactions_dictionary('../data/operations.json')
 
 
 @pytest.fixture

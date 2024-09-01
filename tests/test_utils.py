@@ -58,9 +58,9 @@ def test_transaction_amount_in_rub(transactions, rub_transaction_number):
     assert transaction_amount_in_rub(transactions, rub_transaction_number) == "31957.58"
 
 
-#@patch('requests.get')
-#def test_convert_to_rub(mock_get):
-#    mock_get.return_value.json.return_value = ({'result': 60})
-#    assert convert_to_rub({'amount': '20', 'currency': 'USD'}) == 60
-#    mock_get.assert_called_once_with('https://api.apilayer.com/exchangerates_data/convert?to=RUB&from=USD&amount=20',
-#                                     headers={'apikey': 'SeNXZOUtXJkyM0KDpe3jI3XQX34TD98g'})
+@patch('requests.get')
+def test_convert_to_rub(mock_get):
+    mock_get.return_value.json.return_value = ({'result': 60})
+    assert convert_to_rub({'amount': '20', 'currency': 'USD'}) == 60
+    mock_get.assert_called_once_with('https://api.apilayer.com/exchangerates_data/convert?to=RUB&from=USD&amount=20',
+                                     headers={'apikey': 'PnIpO6YHWsv6fVUfRBTfnAqrJ7hGk8pS'})
