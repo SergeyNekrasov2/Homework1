@@ -2,12 +2,15 @@ from typing import Any
 
 import requests
 import os
+from typing import Any
+
+import requests
+import os
 from dotenv import load_dotenv
+
 
 load_dotenv()
 values = os.getenv("PASSWORD")
-
-
 # keys = os.getenv("API_KEY")
 # headers = {keys: values}
 

@@ -1,29 +1,31 @@
-import json
-from json import JSONDecodeError
-from typing import Any
-
-from src.external_api import currency_conversion
+from src.masks import get_mask_card_number, get_mask_account
+from datetime import datetime
 
 
-def financial_transactions(path: str) -> list:
-    """Функция принимает на вход путь до JSON-файла и возвращает список словарей с данными о финансовых транзакциях."""
-    try:
-        with open(path, encoding="utf-8") as financial_file:
-            try:
-                transactions = json.load(financial_file)
-            except JSONDecodeError:
-                return []
-        if not isinstance(transactions, list):
-            return []
-        return transactions
-    except FileNotFoundError:
-        return []
-
-
-def transaction_amount(trans: dict, currency: str = "RUB") -> Any:
-    """Функция принимает на вход транзакцию и возвращает сумму транзакции в рублях"""
-    if trans["operationAmount"]["currency"]["code"] == currency:
-        amount = trans["operationAmount"]["amount"]
+def mask_account_card(cart: str) -> str:
+    """функция обрабатывает информацию как о картах, так и о счетах."""
+    name_cart = ""
+    numer_cart = ""
+    list_cart = cart.split()
+    for i in list_cart:
+        if i.isdigit():
+            numer_cart += i
+        elif i.isalpha():
+            name_cart += i + " "
+    if len(numer_cart) == 16:
+        return str(name_cart + get_mask_card_number(int(numer_cart)))
+    elif len(numer_cart) == 20:
+        return str(name_cart + get_mask_account(int(numer_cart)))
     else:
-        amount = currency_conversion(trans)
-    return amount
+        raise ValueError("Введен неправильный номер")
+
+
+def get_date(date_sting: str) -> str:
+    """
+    функция принимает на вход строку с датой в формате "2024-03-11T02:26:18.671407"  и возвращает
+    строку с датой в формате "ДД.ММ.ГГГГ" ("11.03.2024").
+    """
+    if len(date_sting) == 0:
+        raise ValueError("Отсутствует дата")
+    date_obj = datetime.fromisoformat(date_sting).date()
+    return date_obj.strftime("%d.%m.%Y")

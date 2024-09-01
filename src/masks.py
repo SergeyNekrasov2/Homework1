@@ -1,19 +1,14 @@
-def get_mask_card_number(card_number: str) -> str | None:
-    """Возвращает замаскированный номер карты в виде строки"""
-    if card_number.isdigit() and len(card_number) == 16:
-        return f"{card_number[:4]} {card_number[4:6]}{'*' * 2} {'*' * 4} {card_number[12:]}"
-    else:
-        return None
+def get_mask_card_number(card_number: int) -> str:
+    """Функция принимает на вход номер карты и возвращает ее маску.
+    7000 79** **** 6361"""
+    if len(str(card_number)) != 16:
+        raise ValueError("Неправильный номер карты")
+    return f"{int(str(card_number)[:4])} {int(str(card_number)[4:6])}** **** {int(str(card_number)[12:])}"
 
 
-# print(get_mask_card_number('7000792289606361'))
-
-
-def get_mask_account(acc_number: str) -> str | None:
-    """Возвращает замаскированный номер счета в виде строки"""
-    if acc_number.isdigit() and len(acc_number) == 20:
-        return f"{'*' * 2}{acc_number[-4::]}"
-    else:
-        return None
-# print(get_mask_account('73654108430135874305'))
-# print(get_mask_account('73654108430135874305'))
+def get_mask_account(account_number: int) -> str:
+    """Функция принимает на вход номер счета и возвращает его маску.
+    **4305"""
+    if len(str(account_number)) != 20:
+        raise ValueError("Неправильный номер счета")
+    return f"**{int(str(account_number)[-4:])}"
