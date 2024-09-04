@@ -12,16 +12,16 @@ def path():
     return PATH_TO_FILE
 
 
-# @pytest.fixture
-# def path_empty_list():
-#     PATH_TO_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "operations_1.json")
-#     return PATH_TO_FILE
-#
-#
-# @pytest.fixture
-# def path_mistake_json():
-#     PATH_TO_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "operations_2.json")
-#     return PATH_TO_FILE
+@pytest.fixture
+def path_empty_list():
+    PATH_TO_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "operations.json")
+    return PATH_TO_FILE
+
+
+@pytest.fixture
+def path_mistake_json():
+    PATH_TO_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "operations.json")
+    return PATH_TO_FILE
 
 
 @pytest.fixture
@@ -77,12 +77,12 @@ def test_financial_transactions(path):
         "to": "Счет 64686473678894779589"}
 
 
-# def test_financial_transactions_empty_list(path_empty_list):
-#     assert financial_transactions(path_empty_list) == []
-#
-#
-# def test_financial_transactions_mistake_json(path_mistake_json):
-#     assert financial_transactions(path_mistake_json) == []
+def test_financial_transactions_empty_list(path_empty_list):
+    assert financial_transactions(path_empty_list) == []
+
+
+def test_financial_transactions_mistake_json(path_mistake_json):
+    assert financial_transactions(path_mistake_json) == []
 
 
 def test_transaction_amount(trans):
