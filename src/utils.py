@@ -6,7 +6,7 @@ from typing import Any
 from src.external_api import currency_conversion
 
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,
     format='%(levelname)s: %(filename)s: %(funcName)s %(lineno)s: %(asctime)s - %(message)s',
     filename='../logs/utils_log.log',
     filemode='w'

@@ -1,7 +1,7 @@
 import logging
 
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,
     format='%(levelname)s: %(filename)s: %(funcName)s %(lineno)s: %(asctime)s - %(message)s',
     filename='../logs/masks_log.log',
     filemode='w'
