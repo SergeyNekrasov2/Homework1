@@ -1,17 +1,46 @@
 import pytest
 
-from src.widget import mask_account_card, get_data
+from src.widget import get_date, mask_account_card
 
 
-@pytest.mark.parametrize("nums, mask_nums", [("73654108430135874305", "Счет **4305"),
-                                             ("Visa Platinum 7000792289606361", "Visa Platinum 7000 79** **** 6361"),
-                                             ("Maestro 7000792289606361", "Maestro 7000 79** **** 6361"), ])
-def test_mask_account_card(nums, mask_nums):
-    """Тест для проверки функции общей маскировки банковского счета и номера банковской карты"""
-    assert mask_account_card(nums) == mask_nums
+def test_mask_account_card():
+    assert mask_account_card('Maestro 1596837868705199') == 'Maestro 1596 83** **** 5199'
 
 
-@pytest.mark.parametrize("data, date", [('2024-07-26T04:32:20.612820', '26.07.2024'), ])
-def test_get_data(data, date):
-    """Тест для проверки функции расшифровки даты"""
-    assert get_data(data) == date
+def test_mask_account_score():
+    assert mask_account_card('Счет 64686473678894779589') == 'Счет **9589'
+
+
+@pytest.mark.parametrize('numer, expected', [('Maestro 1596837868705199', 'Maestro 1596 83** **** 5199'),
+                                             ('MasterCard 7158300734726758', 'MasterCard 7158 30** **** 6758'),
+                                             ('Счет 64686473678894779589', 'Счет **9589'),
+                                             ('Счет 35383033474447895560', 'Счет **5560'),
+                                             ('Visa Classic 6831982476737658', 'Visa Classic 6831 98** **** 7658'),
+                                             ('Visa Platinum 8990 9221 1366 5229', 'Visa Platinum 8990 92** **** 5229')
+                                             ])
+def test_mask_account(numer, expected):
+    assert mask_account_card(numer) == expected
+
+
+def test_mask_account_card_invalid():
+    with pytest.raises(ValueError):
+        mask_account_card('Maestro 159683786870519999')
+
+
+def test_mask_account_score_invalid():
+    with pytest.raises(ValueError):
+        mask_account_card('Счет 353830334744478958473560')
+
+
+def test_mask_account_card_zero_invalid():
+    with pytest.raises(ValueError):
+        mask_account_card('')
+
+
+def test_get_date():
+    assert get_date("2024-03-11T02:26:18.671407") == '11.03.2024'
+
+
+def test_get_date_invalid():
+    with pytest.raises(ValueError):
+        get_date('')

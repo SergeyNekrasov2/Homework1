@@ -1,25 +1,32 @@
+from datetime import datetime
+
 from src.masks import get_mask_account, get_mask_card_number
 
 
-def mask_account_card(nums: str) -> str | None:
-    """Функция общей маскировки карты и счёта"""
-    if len(nums) == 20:
-        return f'Счет {get_mask_account(nums)}'
+def mask_account_card(cart: str) -> str:
+    """функция обрабатывает информацию как о картах, так и о счетах."""
+    name_cart = ""
+    numer_cart = ""
+    list_cart = cart.split()
+    for i in list_cart:
+        if i.isdigit():
+            numer_cart += i
+        elif i.isalpha():
+            name_cart += i + " "
+    if len(numer_cart) == 16:
+        return str(name_cart + get_mask_card_number(int(numer_cart)))
+    elif len(numer_cart) == 20:
+        return str(name_cart + get_mask_account(int(numer_cart)))
     else:
-        cards = get_mask_card_number(nums[-16:])
-        new_card = nums.replace(nums[-16:], cards)
-        return new_card
+        raise ValueError("Введен неправильный номер")
 
 
-# print(mask_account_card('73654108430135874305'))
-# print(mask_account_card('Visa Platinum 7000792289606361'))
-# print(mask_account_card('Maestro 7000792289606361'))
-
-
-def get_data(date: str) -> str | None:
-    """Функция преобразования даты"""
-    return f'{date[8:10]}.{date[5:7]}.{date[0:4]}'
-
-print(get_data('2024-07-26T04:32:20.612820'))
-# print(get_data('2024-07-26T04:32:20.612820'))
-
+def get_date(date_sting: str) -> str:
+    """
+    функция принимает на вход строку с датой в формате "2024-03-11T02:26:18.671407"  и возвращает
+    строку с датой в формате "ДД.ММ.ГГГГ" ("11.03.2024").
+    """
+    if len(date_sting) == 0:
+        raise ValueError("Отсутствует дата")
+    date_obj = datetime.fromisoformat(date_sting).date()
+    return date_obj.strftime("%d.%m.%Y")
