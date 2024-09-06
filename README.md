@@ -26,6 +26,10 @@
 ## Декораторы:
 - Декоратор для логирования вызова функции и записи ее результата в файл или на консоль.
 
+## Логгеры:
+- Написаны логи для модулей utils и masks:
+financial_transactions_logger, transaction_amount_logger, card_number_logger, mask_account_logger
+
 ## Тестирование:
 
 Написаны тесты для имеющизся в проекте функций.
