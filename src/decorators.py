@@ -1,31 +1,20 @@
-import os
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 
-def log(filename: Optional[str] = None) -> Callable[[Callable], Callable]:
-    """Декоратор, который логирует вызов функции и ее результат в файл, в случае указания пути,
-    или в консоль, в случае отсутствия пути."""
+def log(filename: None = None) -> Callable[[Any], Callable[[tuple[Any, ...], dict[str, Any]], Any]]:
+    """Декоратор для логирования вызовов функции."""
 
-    def decorator(func: Callable) -> Callable:
-        def wrapper(*args: Any, **kwargs: Any) -> Any:
-            try:
-                result = func(*args, **kwargs)
-                log_str = f"{func.__name__} ok"
-                if filename:
-                    with open(os.path.join(r"logs", filename), "a") as file:
-                        file.write(log_str + "\n")
-                else:
-                    print(log_str)
-                return result
-
-            except Exception as e:
-                log_str = f"{func.__name__} error: {e}. Inputs: {args}, {kwargs}"
-                if filename:
-                    with open(os.path.join(r"logs", filename), "a") as file:
-                        file.write(log_str + "\n")
-                else:
-                    print(log_str)
-                raise
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            result = func(*args, **kwargs)
+            # Логирование результата
+            log_message = f"Function {func.__name__} called with {args} and {kwargs}. Result: {result}"
+            if filename:
+                with open(filename, "a") as f:
+                    f.write(log_message + "\n")
+            else:
+                print(log_message)
+            return result
 
         return wrapper
 

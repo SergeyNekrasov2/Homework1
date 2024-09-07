@@ -1,20 +1,20 @@
-def number_output(numbers: str) -> str:
-    """Функция, которая принимать на вход тип карты/счета и номер карты/счета и выводит только номер карты/счета"""
-
-    if isinstance(numbers, str):
-        if numbers.split():
-            result = numbers.split()[-1]
-            return result
-        else:
-            return "0"
-    else:
-        return "0"
-
-    result = numbers.split()[-1]
-    return result
+from src.masks import get_mask_account, get_mask_card_number
 
 
-def date_in_correct_format(dates: str) -> str:
-    """Функция, которая выводит дату в формает DD.MM.YYYY"""
-    new_dates = dates[8:10] + "." + dates[5:7] + "." + dates[0:4]
-    return new_dates
+def mask_account_card(requisites: str) -> str:
+    """функция общей маскировки карты и счета."""
+    parts = requisites.split()  # делим на части по пробелу
+    number = parts[-1]  # забираем последний элемент (там всегда номер карты или счёта)
+    if requisites.lower().startswith("счет"):  # если пришёл счёт - отдаём номер в ф-цию маскировки номера счёта
+        hidden_number = get_mask_account(number)
+    else:  # иначе отдаём номер в функцию маскироки карты и получаем скрытый вариант номера
+        hidden_number = get_mask_card_number(number)
+    parts[-1] = hidden_number  # подставляем скрытый номер обратно
+    return " ".join(parts)  # соединяем список в строку
+
+
+def get_date(input_string: str) -> str:
+    """Фнкция преобразования даты"""
+    data = input_string.split("Т")[0]
+    formatted_date = f"{data[8:10]}.{data[5:7]}.{data[:4]}"
+    return formatted_date

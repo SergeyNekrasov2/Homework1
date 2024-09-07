@@ -1,50 +1,24 @@
-import csv
+import os
 
 import pandas as pd
 
 
-def read_csv_transactions(file_name: str) -> list[dict]:
-    """Функция, которая считывает данные из файла CVS и преобразовывает в список словарей"""
-    with open(file_name, "r", encoding="utf-8") as file:
-        reader = csv.reader(file, delimiter=";")
-        header = next(reader)
-        result = []
-        for row in reader:
-            row_dict = {
-                "id": row[header.index("id")],
-                "state": row[header.index("state")],
-                "date": row[header.index("date")],
-                "operationAmount": {
-                    "amount": row[header.index("amount")],
-                    "currency": {
-                        "name": row[header.index("currency_name")],
-                        "code": row[header.index("currency_code")],
-                    },
-                },
-                "description": row[header.index("description")],
-                "from": row[header.index("from")],
-                "to": row[header.index("to")],
-            }
-            result.append(row_dict)
-    return result
+def xlsx_transactions(path: str) -> list[dict]:
+    """Функция вывода транзакций с XLSX файла"""
+    df = pd.read_excel(path)
+    # print(df.shape)
+    return df.to_dict(orient="records")
 
 
-def read_xlsx_transactions(file_name: str) -> list[dict]:
-    """Функция, которая считывает данные из файла XLSX и преобразовывает в список словарей"""
-    df = pd.read_excel(file_name)
-    result = df.apply(
-        lambda row: {
-            "id": row["id"],
-            "state": row["state"],
-            "date": row["date"],
-            "operationAmount": {
-                "amount": row["amount"],
-                "currency": {"name": row["currency_name"], "code": row["currency_code"]},
-            },
-            "description": row["description"],
-            "from": row["from"],
-            "to": row["to"],
-        },
-        axis=1,
-    ).tolist()
-    return result
+def csv_transactions(path: str) -> list[dict]:
+    """Функция вывода транзакций с CSV файла"""
+    df = pd.read_csv(path, delimiter=';')
+    print(df.shape)
+    return df.to_dict(orient="records")
+
+
+# path_to_xlsx = os.path.join(os.path.dirname(__file__), "..", "data", "transactions_excel.xlsx")
+# transactions_full = xlsx_transactions(path_to_xlsx)
+# path_to_csv = os.path.join(os.path.dirname(__file__), "..", "data", "transactions.csv")
+# transactions_full = csv_transactions(path_to_csv)
+# print(transactions_full)

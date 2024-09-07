@@ -1,4 +1,4 @@
-from src.sort import list_transactions_sort_description, list_transactions_sort_search
+from src.filter_by_word import list_transactions_sort_description, list_transactions_sort_search
 from src.utils import list_transactions
 
 

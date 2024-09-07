@@ -1,24 +1,25 @@
-import json
 import os
-from typing import Any
 
 import requests
 from dotenv import load_dotenv
 
 load_dotenv()
+api_key = os.getenv("API_KEY")
 
-API_KEY = os.getenv("API_KEY")
 
-
-def currency_conversion(currency: str, sum_transaction: float) -> Any:
-    """Конвертирует валюту через API и возвращает его в виде float"""
-
-    url = f"https://api.apilayer.com/exchangerates_data/convert?to={'RUB'}&from={currency}&amount={sum_transaction}"
-    try:
-        response = requests.get(url, headers={"apikey": API_KEY})
-        response.raise_for_status()
-    except requests.exceptions.RequestException:
-        return 0.00
-
-    response_data = json.loads(response.text)
-    return round(response_data["result"], 2)
+def convert_from_i_to_rub(transaction: dict[str, float]) -> float | str:
+    """Функция принимает значение в долларах, обращается к API и возвращает конвертацию в рубли/"""
+    amount = transaction["operationAmount"]["amount"]
+    currency = transaction["operationAmount"]["currency"]["code"]
+    if currency == "RUB":
+        return amount
+    elif currency in ["USD", "EUR"]:
+        url = f"https://api.apilayer.com/exchangerates_data/convert?to=RUB&from={currency}&amount={amount}"
+        headers = {"apikey": api_key}
+        response = requests.request("GET", url, headers=headers)
+        json_result = response.json()
+        currency_amount = json_result["result"]
+        return currency_amount
+    else:
+        return "Неизвесная волюта"
+        # говорит о возвращений пипа str, ошибка из за того то не float
