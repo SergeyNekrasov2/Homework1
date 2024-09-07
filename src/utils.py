@@ -4,7 +4,7 @@ import os.path
 from typing import List
 
 from src.external_api import currency_conversion
-from src.new_transactions import read_csv_transactions, read_xlsx_transactions
+from src.read_csv_xlsx import read_csv_transactions, read_xlsx_transactions
 
 logger = logging.getLogger("utils")
 file_handler = logging.FileHandler(

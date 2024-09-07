@@ -19,7 +19,6 @@ def test_log_file():
 
 
 def test_log_console(capsys):
-
     @log()
     def function(x, y):
         return x * y
@@ -47,7 +46,6 @@ def test_log_file_error():
 
 
 def test_log_console_error(capsys):
-
     @log()
     def function(x, y):
         raise ValueError("division by zero")
