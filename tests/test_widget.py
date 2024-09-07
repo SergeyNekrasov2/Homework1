@@ -1,46 +1,23 @@
 import pytest
 
-from src.widget import get_date, mask_account_card
+from src.widget import date_in_correct_format, number_output
 
 
-def test_mask_account_card():
-    assert mask_account_card('Maestro 1596837868705199') == 'Maestro 1596 83** **** 5199'
+def test_card_output():
+    assert number_output("Maestro 1596837868705199") == "1596837868705199"
 
 
-def test_mask_account_score():
-    assert mask_account_card('Счет 64686473678894779589') == 'Счет **9589'
+def test_account_output():
+    assert number_output("Счет 64686473678894779589") == "64686473678894779589"
 
 
-@pytest.mark.parametrize('numer, expected', [('Maestro 1596837868705199', 'Maestro 1596 83** **** 5199'),
-                                             ('MasterCard 7158300734726758', 'MasterCard 7158 30** **** 6758'),
-                                             ('Счет 64686473678894779589', 'Счет **9589'),
-                                             ('Счет 35383033474447895560', 'Счет **5560'),
-                                             ('Visa Classic 6831982476737658', 'Visa Classic 6831 98** **** 7658'),
-                                             ('Visa Platinum 8990 9221 1366 5229', 'Visa Platinum 8990 92** **** 5229')
-                                             ])
-def test_mask_account(numer, expected):
-    assert mask_account_card(numer) == expected
-
-
-def test_mask_account_card_invalid():
-    with pytest.raises(ValueError):
-        mask_account_card('Maestro 159683786870519999')
-
-
-def test_mask_account_score_invalid():
-    with pytest.raises(ValueError):
-        mask_account_card('Счет 353830334744478958473560')
-
-
-def test_mask_account_card_zero_invalid():
-    with pytest.raises(ValueError):
-        mask_account_card('')
-
-
-def test_get_date():
-    assert get_date("2024-03-11T02:26:18.671407") == '11.03.2024'
-
-
-def test_get_date_invalid():
-    with pytest.raises(ValueError):
-        get_date('')
+@pytest.mark.parametrize(
+    "date, expected",
+    [
+        ("2018-07-11T02:26:18.671407", "11.07.2018"),
+        ("2019-07-03T18:35:29.512364", "03.07.2019"),
+        ("2018-10-14T08:21:33.419441", "14.10.2018"),
+    ],
+)
+def test_date_in_correct_format(date, expected):
+    assert date_in_correct_format(date) == expected

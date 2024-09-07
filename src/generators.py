@@ -1,30 +1,39 @@
-import sys
-from typing import Any, Generator
+from typing import Iterable, Iterator
 
 
-def filter_by_currency(transactions: list, currency_code: str = "USD") -> Generator[Any, Any, Any]:
-    """Функция выдает транзакции, где валюта операции соответствует заданной."""
-    if transactions == []:
-        sys.exit("Нет транзакций")
-    for i in transactions:
-        if i.get("operationAmount").get("currency").get("code") != currency_code:
-            sys.exit("В транзакциях нет такого кода")
-        elif i.get("operationAmount").get("currency").get("code") == currency_code:
-            yield i
+def filter_by_currency(banking_information: Iterable[dict], currency_code: str) -> Iterator[dict]:
+    """Функция которая принимает список словарей с банковскими операциями (или объект-генератор, который выдает
+    по одной банковской операции) и возвращает итератор, который выдает по очереди операции,
+     в которых указана заданная валюта."""
+    for banking in banking_information:
+        if banking["operationAmount"]["currency"]["code"] in banking:
+            continue
+        if banking["operationAmount"]["currency"]["code"] == currency_code:
+            yield banking
 
 
-def transaction_descriptions(transactions: list) -> Generator[Any, Any, Any]:
-    """Функция принимает список словарей с транзакциями и возвращает описание каждой операции по очереди."""
-    if not transactions:
-        sys.exit("Нет транзакций")
-    for description_operation in transactions:
-        yield description_operation.get("description")
+def transaction_descriptions(banking_information: Iterable[dict]) -> Iterator[str]:
+    """Генератор который принимает список словарей и возвращает описание каждой операции по очереди."""
+    for banking in banking_information:
+        yield banking["description"]
 
 
-def card_number_generator(start: int, stop: int) -> Generator[str, Any, None]:
-    """Функция может сгенерировать номера карт в заданном диапазоне
-    от 0000 0000 0000 0001 до 9999 9999 9999 9999."""
-    for x in range(start, stop + 1):
-        number_zero = "0000000000000000"
-        card_number = number_zero[: -len(str(x))] + str(x)
-        yield f"{card_number[:4]} {card_number[4:8]} {card_number[8:12]} {card_number[12:]}"
+def card_numbers_generator(start: int, stop: int) -> Iterator[str]:
+    """Генератор номеров банковских карт, который должен генерировать номера карт в формате XXXX XXXX XXXX XXXX,
+    где X — цифра. Должны быть сгенерированы номера карт в заданном диапазоне, например от 0000 0000 0000 0001 до
+    9999 9999 9999 9999 (диапазоны передаются как параметры генератора)."""
+    for num in range(start, stop + 1):
+        number = "0" * (16 - len(str(num))) + str(num)
+
+        string_to_return = ""
+        block_counter = 0
+
+        for digit in number:
+            block_counter += 1
+            if block_counter <= 4:
+                string_to_return += digit
+            else:
+                string_to_return += " " + digit
+                block_counter = 1
+
+        yield string_to_return
