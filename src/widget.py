@@ -10,8 +10,8 @@ def number_output(numbers: str) -> str:
     else:
         return "0"
 
-    result = numbers.split()[-1]
-    return result
+    # result = numbers.split()[-1]
+    # return result
 
 
 

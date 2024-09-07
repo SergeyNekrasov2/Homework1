@@ -4,16 +4,17 @@ import os.path
 from typing import List
 
 from src.external_api import currency_conversion
-from src.new_transactions import read_csv_transactions, read_xlsx_transactions
+
 
 logger = logging.getLogger("utils")
-file_handler = logging.FileHandler(
-    os.path.join(os.path.dirname(os.path.abspath(__file__)), "../logs", "utils.log"), mode="w"
-)
-file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-file_handler.setFormatter(file_formatter)
-logger.addHandler(file_handler)
-logger.setLevel(logging.INFO)
+
+
+# file_handler = logging.FileHandler(
+#     os.path.join(os.path.dirname(os.path.abspath(__file__)), "../logs", "utils.log"), mode="w")
+# file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+# file_handler.setFormatter(file_formatter)
+# logger.addHandler(file_handler)
+# logger.setLevel(logging.DEBUG)
 
 
 def data_transactions(way: str) -> List[dict]:
@@ -60,13 +61,12 @@ def transaction_amount(txn: dict) -> float:
     logger.info("Нет ключа 'operationAmount' в транзакции")
     return 0.0
 
-
-if __name__ == "__main__":
-    for transaction in read_xlsx_transactions("../data/transactions_excel.xlsx"):
-        print(transaction_amount(transaction))
-
-    for transaction in read_csv_transactions("../data/transactions.csv"):
-        print(transaction_amount(transaction))
-
-    for transaction in list_transactions:
-        print(transaction_amount(transaction))
+# if __name__ == "__main__":
+#     for transaction in read_xlsx_transactions("../data/transactions_excel.xlsx"):
+#         print(transaction_amount(transaction))
+#
+#     for transaction in read_csv_transactions("../data/transactions.csv"):
+#         print(transaction_amount(transaction))
+#
+#     for transaction in list_transactions:
+#         print(transaction_amount(transaction))

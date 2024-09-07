@@ -2,7 +2,7 @@ import re
 from collections import Counter
 from typing import Dict, List
 
-from src.utils import list_transactions
+# from src.utils import list_transactions
 
 
 def list_transactions_sort_search(list_txn: List[dict], search_bar: str) -> List[dict]:

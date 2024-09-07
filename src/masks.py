@@ -1,18 +1,16 @@
 import logging
-import os.path
-
-
-from src.utils import data_transactions, json_file_path
-from src.widget import number_output
+# import os.path
+#
+# from src.utils import data_transactions, json_file_path
+# from src.widget import number_output
 
 logger = logging.getLogger("masks")
-file_handler = logging.FileHandler(
-    os.path.join(os.path.dirname(os.path.abspath(__file__)), "../logs", "masks.log"), mode="w"
-)
-file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-file_handler.setFormatter(file_formatter)
-logger.addHandler(file_handler)
-logger.setLevel(logging.INFO)
+# file_handler = logging.FileHandler(
+#     os.path.join(os.path.dirname(os.path.abspath(__file__)), "../logs", "masks.log"), mode="w")
+# file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+# file_handler.setFormatter(file_formatter)
+# logger.addHandler(file_handler)
+# logger.setLevel(logging.DEBUG)
 
 
 def mask_card_account_number(card_account_number: str) -> str:
@@ -42,10 +40,10 @@ def mask_card_account_number(card_account_number: str) -> str:
         return "0"
 
 
-if __name__ == "__main__":
-    list_transactions = data_transactions(json_file_path)
-    transactions = list_transactions
-    for transaction in transactions:
-        if "from" in transaction:
-            from_ = mask_card_account_number(number_output(transaction["from"]))
-            print(from_)
+# if __name__ == "__main__":
+#     list_transactions = data_transactions(json_file_path)
+#     transactions = list_transactions
+#     for transaction in transactions:
+#         if "from" in transaction:
+#             from_ = mask_card_account_number(number_output(transaction["from"]))
+#             print(from_)
