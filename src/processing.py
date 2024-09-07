@@ -1,20 +1,28 @@
-def filter_by_state(list_of_dictionaries: list, key: str = "EXECUTED") -> list:
-    """функция принимает список словарей и опционально значение для ключа state (по умолчанию
-    'EXECUTED'), возвращает новый список словарей, содержащий только те словари, у которых ключ
-    state соответствует указанному значению."""
-    for i in list_of_dictionaries:
-        if not i.get("state"):
-            raise ValueError("Отсутствует ключ для фильтра")
-    # new_list_of_dictionaries = []
-    # for i in list_of_dictionaries:
-    #    if i.get('state') == key:
-    #        new_list_of_dictionaries.append(i)
-    return [i for i in list_of_dictionaries if i.get("state") == key]
+def filter_by_state(input_list: list, state: str = "EXECUTED") -> list:
+    """Функция, которая принимает на вход список словарей и значение для ключа state
+    (опциональный параметр со значением по умолчанию EXECUTED) и возвращает новый список,
+    содержащий только те словари, у которых ключ state содержит переданное в функцию значение."""
+    new_input_list = []
+    for item in input_list:
+        if item.get("state") == state:
+            new_input_list.append(item)
+    return new_input_list
 
 
-def sort_by_date(list_dictionaries: list, keys: bool = True) -> list:
-    """функция принимает список словарей и необязательный параметр, задающий порядок сортировки
-    (по умолчанию — убывание). Функция должна возвращать новый список, отсортированный по дате (date)."""
-    # sort_list = sorted(list_dictionaries, key=lambda list_dictionaries: list_dictionaries['date'], reverse=keys)
-    # return sort_list
-    return sorted(list_dictionaries, key=lambda list_dictionaries: list_dictionaries["date"], reverse=keys)
+def sort_by_date(input_list: list, sorting_order=False) -> list:
+
+    """Функция которая принимает на вход список словарей и возвращает новый список, в котором исходные словари
+    отсортированы по убыванию даты (ключ date). Функция принимает два аргумента, второй необязательный задает
+     порядок сортировки (убывание, возрастание)."""
+    return sorted(input_list, key=lambda x: x["date"], reverse=sorting_order)
+
+# print(
+#     sort_by_date(
+#         [
+#             {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+#             {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
+#             {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
+#             {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
+#         ]
+#     )
+# )

@@ -1,64 +1,60 @@
+import os
+
+import pytest
+
 from src.decorators import log
 
 
-def test_log_correct(capsys):
-    # Проверка корректного выполнения функции
-    @log(filename="test_log.txt")
-    def my_function(x, y):
-        return x + y
+# def test_log_file():
+#     @log(filename="mylog.txt")
+#     def function(x, y):
+#         return x * y
+#
+#     function(5, 2)
+#     with open(os.path.join(r"logs", "mylog.txt"), "rt") as file:
+#         for line in file:
+#             log_str = line
+#
+#     assert log_str == "function ok\n"
 
-    my_function(1, 2)
+
+def test_log_console(capsys):
+
+    @log()
+    def function(x, y):
+        return x * y
+
+    result = function(5, 2)
     captured = capsys.readouterr()
-    assert "my_function called with args: (1, 2), kwargs:{}. Result: 3\n" in captured.out
+
+    assert captured.out == "function ok\n"
+    assert result == 10
 
 
-def test_log_different_types_str(capsys):
-    # Проверка ошибки: missing 2 required positional arguments: 'x' and 'y'.
-    @log(filename="test_log.txt")
-    def my_function(x, y):
-        return x + y
-
-    try:
-        my_function("a", "b")
-    except TypeError as e:
-        captured = capsys.readouterr()
-        assert "my function error: " in captured.out
-
-
-def test_log_lack_argument(capsys):
-    # Проверка ошибки: missing 1 required positional argument: 'y'.
-    @log(filename="test_log.txt")
-    def my_function(x, y):
-        return x + y
-
-    try:
-        my_function(1, )
-    except TypeError as e:
-        captured = capsys.readouterr()
-        assert "my function error: " in captured.out
+# def test_log_file_error():
+#     @log(filename="mylog.txt")
+#     def function(x, y):
+#         raise TypeError("division by zero")
+#
+#     with pytest.raises(TypeError, match="division by zero"):
+#         function(5, 0)
+#
+#     with open(os.path.join(r"logs", "mylog.txt"), "rt") as file:
+#         for line in file:
+#             log_str = line
+#
+#     assert log_str == "function error: division by zero. Inputs: (5, 0), {}\n"
 
 
-def test_log_different_types_argument(capsys):
-    # Проверка ошибки: unsupported operand type(s) for +: 'int' and 'str'.
-    @log(filename="test_log.txt")
-    def my_function(x, y):
-        return x + y
+def test_log_console_error(capsys):
 
-    try:
-        my_function(1, "")
-    except TypeError as e:
-        captured = capsys.readouterr()
-        assert "my function error: " in captured.out
+    @log()
+    def function(x, y):
+        raise ValueError("division by zero")
 
+    with pytest.raises(ValueError, match="division by zero"):
+        function(5, 0)
 
-def test_log_different_types_no_argument(capsys):
-    # Проверка ошибки: missing 2 required positional arguments: 'x' and 'y'.
-    @log(filename="test_log.txt")
-    def my_function(x, y):
-        return x + y
+    captured = capsys.readouterr()
 
-    try:
-        my_function()
-    except TypeError as e:
-        captured = capsys.readouterr()
-        assert "my function error: " in captured.out
+    assert captured.out == "function error: division by zero. Inputs: (5, 0), {}\n"

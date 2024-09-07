@@ -3,7 +3,7 @@ from unittest.mock import mock_open, patch
 
 import pandas as pd
 
-from src.read_csv_xlsx import read_csv_transactions, read_xlsx_transactions
+from src.new_transactions import read_csv_transactions, read_xlsx_transactions
 
 
 class TestReadCsvTransactions(unittest.TestCase):

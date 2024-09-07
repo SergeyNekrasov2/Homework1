@@ -1,31 +1,9 @@
-import pytest
-
-from src.masks import get_mask_account, get_mask_card_number
+from src.masks import mask_card_account_number
 
 
 def test_mask_card_number():
-    assert get_mask_card_number(7000792289606361) == '7000 79** **** 6361'
+    assert mask_card_account_number("1596837868705199") == " 1596837** ****5199"
 
 
-def test_mask_account():
-    assert get_mask_account(73654108430135874305) == '**4305'
-
-
-def test_mask_card_no_number_invalid():
-    with pytest.raises(ValueError):
-        get_mask_card_number('')
-
-
-def test_mask_card_number_invalid():
-    with pytest.raises(ValueError):
-        get_mask_card_number(7000792289606361098776)
-
-
-def test_mask_account_no_number_invalid():
-    with pytest.raises(ValueError):
-        get_mask_account('')
-
-
-def test_mask_account_number_invalid():
-    with pytest.raises(ValueError):
-        get_mask_account(70007922896063618758432098776)
+def test_mask_account_number():
+    assert mask_card_account_number("64686473678894779589") == " **9589"

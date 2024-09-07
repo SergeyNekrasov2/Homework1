@@ -1,23 +1,24 @@
+import json
 import os
 from typing import Any
+
 import requests
 from dotenv import load_dotenv
 
 load_dotenv()
-values = os.getenv("PASSWORD")
+
+API_KEY = os.getenv("API_KEY")
 
 
-# keys = os.getenv("API_KEY")
-# headers = {keys: values}
+def currency_conversion(currency: str, sum_transaction: float) -> Any:
+    """Конвертирует валюту через API и возвращает его в виде float"""
 
+    url = f"https://api.apilayer.com/exchangerates_data/convert?to={'RUB'}&from={currency}&amount={sum_transaction}"
+    try:
+        response = requests.get(url, headers={"apikey": API_KEY})
+        response.raise_for_status()
+    except requests.exceptions.RequestException:
+        return 0.00
 
-def currency_conversion(transaction: Any) -> Any:
-    """Функция конвертации"""
-    amout = transaction["operationAmount"]["amount"]
-    code = transaction["operationAmount"]["currency"]["code"]
-    to = "RUB"
-    url = f"https://api.apilayer.com/exchangerates_data/convert?to={to}&from={code}&amount={amout}"
-    payload = {}
-    response = requests.get(url, headers={"apikey": values}, data=payload)
-    result = response.json()
-    return result["result"]
+    response_data = json.loads(response.text)
+    return round(response_data["result"], 2)

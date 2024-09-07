@@ -1,30 +1,49 @@
 import logging
+# import os.path
+#
+# from src.utils import data_transactions, json_file_path
+# from src.widget import number_output
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(levelname)s: %(filename)s: %(funcName)s %(lineno)s: %(asctime)s - %(message)s',
-    filename='../logs/masks_log.log',
-    filemode='w'
-)
-card_number_logger = logging.getLogger()
-mask_account_logger = logging.getLogger()
-
-
-def get_mask_card_number(card_number: int) -> str:
-    """Функция принимает на вход номер карты и возвращает ее маску.
-    7000 79** **** 6361"""
-    if len(str(card_number)) != 16:
-        card_number_logger.error("Неправильный номер карты")
-        raise ValueError("Неправильный номер карты")
-    card_number_logger.info("Маска номера карты создана")
-    return f"{int(str(card_number)[:4])} {int(str(card_number)[4:6])}** **** {int(str(card_number)[12:])}"
+logger = logging.getLogger("masks")
+# file_handler = logging.FileHandler(
+#     os.path.join(os.path.dirname(os.path.abspath(__file__)), "../logs", "masks.log"), mode="w")
+# file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+# file_handler.setFormatter(file_formatter)
+# logger.addHandler(file_handler)
+# logger.setLevel(logging.DEBUG)
 
 
-def get_mask_account(account_number: int) -> str:
-    """Функция принимает на вход номер счета и возвращает его маску.
-    **4305"""
-    if len(str(account_number)) != 20:
-        mask_account_logger.error("Неправильный номер счета")
-        raise ValueError("Неправильный номер счета")
-    mask_account_logger.info("Маска номера счета создана")
-    return f"**{int(str(account_number)[-4:])}"
+def mask_card_account_number(card_account_number: str) -> str:
+    """Функция, которая принимает номер карты и номер счета выводит маскированный номер карты"""
+
+    if not card_account_number:
+        logger.info("Номер карты или счета пустой")
+        return "0"
+
+    logger.info("Выполняем перебор номера и счета из списка")
+    if len(card_account_number) == 16:
+        logger.info("Выполняется маскировка номера карты")
+        mask_six_digits = card_account_number[7:12]
+        stars = "** ****"
+        card_account_number = " " + card_account_number.replace(mask_six_digits, stars)
+        return card_account_number
+
+    elif len(card_account_number) == 20:
+        logger.info("Выполняется маскировка счета карты")
+        card_account_number = " " + "**" + card_account_number[-4:]
+
+        logger.info("Выводится результат с маскированными данными")
+        return card_account_number
+
+    else:
+        logger.info("Неправильный формат номера карты или счета")
+        return "0"
+
+
+# if __name__ == "__main__":
+#     list_transactions = data_transactions(json_file_path)
+#     transactions = list_transactions
+#     for transaction in transactions:
+#         if "from" in transaction:
+#             from_ = mask_card_account_number(number_output(transaction["from"]))
+#             print(from_)
