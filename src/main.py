@@ -121,5 +121,5 @@ def main() -> None:
             print(f"{date} {description}\n{from_} -> {to_}\nСумма: {amount} {currency}\n")
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
