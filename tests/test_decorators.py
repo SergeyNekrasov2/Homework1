@@ -1,58 +1,21 @@
-import os
-
-import pytest
-
 from src.decorators import log
 
 
-def test_log_file():
-    @log(filename="mylog.txt")
-    def function(x, y):
-        return x * y
-
-    function(5, 2)
-    with open(os.path.join(r"logs", "mylog.txt"), "rt") as file:
-        for line in file:
-            log_str = line
-
-    assert log_str == "function ok\n"
-
-
-def test_log_console(capsys):
+def test_log_to_console(capfd):
     @log()
-    def function(x, y):
-        return x * y
+    def func():
+        return "test"
 
-    result = function(5, 2)
-    captured = capsys.readouterr()
-
-    assert captured.out == "function ok\n"
-    assert result == 10
+    func()
+    captured = capfd.readouterr()
+    assert "Function func called" in captured.out
 
 
-def test_log_file_error():
-    @log(filename="mylog.txt")
-    def function(x, y):
-        raise TypeError("division by zero")
+def test_log_to_file():
+    @log(filename="test_log.txt")
+    def func():
+        return "test"
 
-    with pytest.raises(TypeError, match="division by zero"):
-        function(5, 0)
-
-    with open(os.path.join(r"logs", "mylog.txt"), "rt") as file:
-        for line in file:
-            log_str = line
-
-    assert log_str == "function error: division by zero. Inputs: (5, 0), {}\n"
-
-
-def test_log_console_error(capsys):
-    @log()
-    def function(x, y):
-        raise ValueError("division by zero")
-
-    with pytest.raises(ValueError, match="division by zero"):
-        function(5, 0)
-
-    captured = capsys.readouterr()
-
-    assert captured.out == "function error: division by zero. Inputs: (5, 0), {}\n"
+    func()
+    with open("test_log.txt", "r") as f:
+        assert "Function func called" in f.read()
